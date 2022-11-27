@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "nba-db-and-analysis"
+version = "0.1.0"
+description = ""
+authors = ["Silas Genário <sg.lopes26@gmail.com>"]
+readme = "README.md"
+packages = [{include = "nba_db_and_analysis"}]
+
+[tool.poetry.dependencies]
+python = "^3.10,<3.11"
+pandas = "^1.5.1"
+numpy = "^1.23.4"
+seaborn = "^0.12.1"
+matplotlib = "^3.6.2"
+pymc = "^4.3.0"
+arviz = "^0.14.0"
+nba-api = "^1.1.14"
+mlflow = "^2.0.1"
+jupyterlab = "^3.5.0"
+patsy = "^0.5.3"
+duckdb = "^0.6.0"
+sqlalchemy = "^1.4.44"
+duckdb-engine = "^0.6.4"
+prefect = "^2.6.8"
+dvc = "^2.35.2"
+
+[tool.poetry.scripts]
+create_database = "nba_db_and_analysis.db.create_database:create_database"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
