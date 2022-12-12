@@ -41,3 +41,4 @@ def create_tb_teams():
     
 if __name__ == "__main__":
     create_tb_teams()
+    
