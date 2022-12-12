@@ -24,9 +24,10 @@ duckdb-engine = "^0.6.4"
 prefect = "^2.6.8"
 dvc = "^2.35.2"
 dvc-gdrive = "^2.19.1"
+tqdm = "^4.64.1"
 
 [tool.poetry.scripts]
-create_database = "nba_db_and_analysis.db.create_database:create_database"
+game_logs = "nba_db_and_analysis.db.scripts:get_game_logs"
 
 [build-system]
 requires = ["poetry-core"]
