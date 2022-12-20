@@ -4,13 +4,11 @@ from datetime import date
 import duckdb
 import pandas as pd
 from nba_api.stats.endpoints import TeamGameLogs
-from prefect import flow, task
 
 from nba_db_and_analysis.db.utils import connect_to_db, ingest_pandas_df_in_db
 from nba_db_and_analysis.db.data_funcs import get_home_away
 
 
-@task
 def tb_game_logs(conn: duckdb.DuckDBPyConnection) -> None:
     sql = """
     CREATE TABLE IF NOT EXISTS teams.tb_game_logs (
@@ -51,7 +49,6 @@ def tb_game_logs(conn: duckdb.DuckDBPyConnection) -> None:
     conn.execute(sql)
     
 
-@task
 def get_game_logs(season_nullable, season_type_nullable):
     team_games = TeamGameLogs(
         season_nullable=season_nullable,
@@ -60,7 +57,6 @@ def get_game_logs(season_nullable, season_type_nullable):
     return team_games
 
 
-@task
 def process_game_logs(
     game: pd.DataFrame,
     season_type_nullable: str,
@@ -74,7 +70,6 @@ def process_game_logs(
     return team_game
 
 
-@task
 def select_cols_game_logs(game):
     game = game.loc[
         :,
@@ -116,7 +111,6 @@ def select_cols_game_logs(game):
     return game
 
 
-@flow
 def create_tb_game_logs(season, season_type):
     conn = connect_to_db()
     tb_game_logs(conn=conn)
@@ -138,5 +132,3 @@ def create_tb_game_logs(season, season_type):
         conn.close()
     conn.close()
             
-#if __name__ == "__main__":
-#    create_tb_game_logs()

@@ -1,12 +1,13 @@
 import argparse
 
-from prefect import flow, task
+from nba_db_and_analysis.db import (
+    create_tb_game_logs,
+    create_teams_tb_boxscore_adv,
+    create_tb_boxscore,
+    create_players_tb_boxscore_adv
+)
 
 from nba_db_and_analysis.db.utils import connect_to_db
-from nba_db_and_analysis.db.teams.tb_teams import create_tb_teams
-from nba_db_and_analysis.db.teams.tb_game_logs import create_tb_game_logs
-from nba_db_and_analysis.db.players.tb_boxscore import create_tb_boxscore
-
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -15,7 +16,6 @@ def parse_args():
     return args
 
 
-@flow
 def create_schemas():
     conn = connect_to_db()
     sql = """
@@ -27,7 +27,6 @@ def create_schemas():
     conn.close()
 
 
-@flow
 def get_game_logs():
     create_schemas()
     
@@ -39,5 +38,11 @@ def get_game_logs():
         season=args.season, season_type=args.season_type
     )
     create_tb_boxscore(
+        season=args.season, season_type=args.season_type
+    )
+    create_teams_tb_boxscore_adv(
+        season=args.season, season_type=args.season_type
+    )
+    create_players_tb_boxscore_adv(
         season=args.season, season_type=args.season_type
     )

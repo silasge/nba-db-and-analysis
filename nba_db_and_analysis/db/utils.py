@@ -1,14 +1,11 @@
 import duckdb
-from prefect import task
 import pandas as pd
 
 
-@task
 def connect_to_db(database="./data/processed/nba.duckdb"):
     return duckdb.connect(database=database)
 
 
-@task
 def export_table_to_parquet(
     df: pd.DataFrame,
     save_as: str
@@ -17,7 +14,6 @@ def export_table_to_parquet(
     return save_as
 
 
-@task
 def ingest_parquet_in_db(
     table: str,
     parquet: str,
@@ -31,7 +27,6 @@ def ingest_parquet_in_db(
     conn.commit()
     
 
-@task
 def ingest_pandas_df_in_db(
     table: str,
     df: str,

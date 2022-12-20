@@ -1,12 +1,10 @@
 import duckdb
-from prefect import task, flow
-import numpy as np
 from nba_api.stats.endpoints import BoxScoreTraditionalV2
 from tqdm import tqdm
 
 from nba_db_and_analysis.db.utils import connect_to_db, ingest_pandas_df_in_db
 
-@task
+
 def tb_boxscore(conn: duckdb.DuckDBPyConnection) -> None:
     sql = """
     CREATE TABLE IF NOT EXISTS players.tb_boxscore (
@@ -39,12 +37,11 @@ def tb_boxscore(conn: duckdb.DuckDBPyConnection) -> None:
         PF INTEGER, 
         PTS INTEGER,
         PLUS_MINUS FLOAT
-    )
+    );
     """
     conn.execute(sql)
     
     
-@task
 def get_players_tb_score(game_id):
     box = BoxScoreTraditionalV2(
         game_id=game_id
@@ -52,7 +49,6 @@ def get_players_tb_score(game_id):
     return box
 
 
-@flow
 def create_tb_boxscore(season, season_type):
     conn = connect_to_db()
     tb_boxscore(conn=conn)

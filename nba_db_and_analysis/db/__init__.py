@@ -1,0 +1,7 @@
+# teams
+from nba_db_and_analysis.db.teams.tb_game_logs import create_tb_game_logs
+from nba_db_and_analysis.db.teams.tb_boxscore_advanced import create_teams_tb_boxscore_adv
+
+# players
+from nba_db_and_analysis.db.players.tb_boxscore import create_tb_boxscore
+from nba_db_and_analysis.db.players.tb_boxscore_advanced import create_players_tb_boxscore_adv
