@@ -54,17 +54,16 @@ def get_game_logs(season_nullable, season_type_nullable):
         season_nullable=season_nullable,
         season_type_nullable=season_type_nullable
     ).get_data_frames()[0]
+    team_games["SEASON_TYPE"] = season_type_nullable
     return team_games
 
 
 def process_game_logs(
-    game: pd.DataFrame,
-    season_type_nullable: str,
+    game: pd.DataFrame
 ):
     team_game = game.copy()
     team_game["GAME_DATE"] = pd.to_datetime(team_game["GAME_DATE"])
     team_game = team_game.sort_values("GAME_DATE")
-    team_game["SEASON_TYPE"] = season_type_nullable
     team_game["HOME_AWAY"] = team_game["MATCHUP"].apply(lambda x: get_home_away(x))
     team_game["OPPONENT"] = team_game["MATCHUP"].str[-3:]
     return team_game
@@ -124,7 +123,7 @@ def create_tb_game_logs(season, season_type):
         ).fetchall()]
         game = game.query("GAME_ID not in @ids_in_db")
         if len(game) > 0:
-            game = process_game_logs(game=game, season_type_nullable=season_type)
+            game = process_game_logs(game=game)
             game = select_cols_game_logs(game=game)
             ingest_pandas_df_in_db("teams.tb_game_logs", df=game, conn=conn)
     except Exception as e:

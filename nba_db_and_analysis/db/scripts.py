@@ -9,12 +9,6 @@ from nba_db_and_analysis.db import (
 
 from nba_db_and_analysis.db.utils import connect_to_db
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-season", type=str)
-    args = parser.parse_args()
-    return args
-
 
 def create_schemas():
     conn = connect_to_db()

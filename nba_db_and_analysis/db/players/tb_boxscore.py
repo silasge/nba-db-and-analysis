@@ -1,3 +1,5 @@
+from time import sleep
+
 import duckdb
 from nba_api.stats.endpoints import BoxScoreTraditionalV2
 from tqdm import tqdm
@@ -74,6 +76,7 @@ def create_tb_boxscore(season, season_type):
                 ingest_pandas_df_in_db(
                     table="players.tb_boxscore", df=players_boxsore, conn=conn
                 )
+                sleep(0.6)
     except Exception as e:
         print(e)
         conn.close()
